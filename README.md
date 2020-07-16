@@ -428,3 +428,229 @@ class App extends React.Component {
     }
 }
 ```
+```
+class App extends Component {
+    constructor() {
+        super()
+        this.state = {
+            unreadMessages: ["a", "b"]
+        }
+    }
+    // &&
+    // false && false
+    render() {
+        return (
+            <div>
+                {
+                    this.state.unreadMessages.length > 0 && 
+                    <h2>You have {this.state.unreadMessages.length} unread messages!</h2>
+                }
+            </div>
+        )
+    }
+}
+
+export default App
+```
+```
+class App extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            isLoggedIn: false
+        }
+        this.handleClick = this.handleClick.bind(this)
+    }
+    
+    handleClick() {
+        this.setState(prevState => {
+            return {
+                isLoggedIn: !prevState.isLoggedIn
+            }
+        })
+    }
+    
+    render() {   
+        let buttonText = this.state.isLoggedIn ? "LOG OUT" : "LOG IN"
+        let displayText = this.state.isLoggedIn ? "Logged in" : "Logged out"
+        return (
+            <div>
+                <button onClick={this.handleClick}>{buttonText}</button>
+                <h1>{displayText}</h1>
+            </div>
+        )
+    }
+}
+```
+```
+function TodoItem(props) {
+    const completedStyle = {
+        fontStyle: "italic",
+        color: "#cdcdcd",
+        textDecoration: "line-through"
+    }
+    
+    return (
+        <div className="todo-item">
+            <input 
+                type="checkbox" 
+                checked={props.item.completed} 
+                onChange={() => props.handleChange(props.item.id)}
+            />
+            <p style={props.item.completed ? completedStyle: null}>{props.item.text}</p>
+        </div>
+    )
+}
+
+```
+// https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
+// https://swapi.co/
+// https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-promise-27fc71e77261
+
+
+```
+class App extends Component {
+    constructor() {
+        super()
+        this.state = {
+            loading: false,
+            character: {}
+        }
+    }
+    
+    componentDidMount() {
+        this.setState({loading: true})
+        fetch("https://swapi.co/api/people/1")
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    loading: false,
+                    character: data
+                })
+            })
+    }
+    
+    render() {
+        const text = this.state.loading ? "loading..." : this.state.character.name
+        return (
+            <div>
+                <p>{text}</p>
+            </div>
+        )
+    }
+}
+```
+/**
+ * Other modern/advanced React features/topics to learn:
+ * 
+ * Official React Context API - https://reactjs.org/docs/context.html
+ * Error Boundaries - https://reactjs.org/docs/error-boundaries.html
+ * render props - https://reactjs.org/docs/render-props.html
+ * Higher Order Components - https://reactjs.org/docs/higher-order-components.html
+ * React Router - https://reacttraining.com/react-router/core/guides/philosophy
+ * React Hooks - https://reactjs.org/docs/hooks-intro.html
+ * React lazy, memo, and Suspense - https://reactjs.org/blog/2018/10/23/react-v-16-6.html
+ */
+ ##### object and array destructuring 
+ ```
+ function App() {
+    const [ answer ] = useState("Yes")
+    console.log(answer)
+    
+    const person = {
+        name: "Joe",
+        age: 42
+    }
+    
+    const { name, age } = person
+    
+    return (
+        <div>
+            <h1>Is state important to know? {answer}</h1>
+        </div>
+    )
+}
+```
+##### useState
+```
+function App() {
+    const [count, setCount] = useState(0)
+    const [answer, setAnswer] = useState("Yes")
+    
+    function increment() {
+        setCount(prevCount => prevCount + 1)
+    }
+    
+    function decrement() {
+        setCount(prevCount => prevCount - 1)
+    }
+    
+    return (
+        <div>
+            <h1>{count}</h1>
+            <button onClick={increment}>Increment</button>
+            <button onClick={decrement}>Decrement</button>
+        </div>
+    )
+}
+```
+##### useEffect
+```
+function App() {
+    const [count, setCount] = useState(0)
+    const [color, setColor] = useState("")
+    
+    function increment() {
+        setCount(prevCount => prevCount + 1)
+    }
+    
+    function decrement() {
+        setCount(prevCount => prevCount - 1)
+    }
+    
+    useEffect(() => {
+        setColor(randomcolor())
+    }, [count])
+    
+    return (
+        <div>
+            <h1 style={{color: color}}>{count}</h1>
+            <button onClick={increment}>Increment</button>
+            <button onClick={decrement}>Decrement</button>
+        </div>
+    )
+}
+
+//2
+
+function App() {
+    const [count, setCount] = useState(0)
+    const [color, setColor] = useState("")
+    
+    useEffect(() => {
+        setInterval(() => {
+            setCount(prevCount => prevCount + 1)
+        }, 1000)
+    }, [])
+    
+    useEffect(() => {
+        setColor(randomcolor())
+    }, [count])
+    
+    return (
+        <div>
+            <h1 style={{color: color}}>{count}</h1>
+        </div>
+    )
+}
+
+```
+
+https://scrimba.com/g/greact
+
+
+https://medium.freecodecamp.org/every-time-you-build-a-to-do-list-app-a-puppy-dies-505b54637a5d
+
+https://medium.freecodecamp.org/want-to-build-something-fun-heres-a-list-of-sample-web-app-ideas-b991bce0ed9a
+
+https://medium.freecodecamp.org/summer-is-over-you-should-be-coding-heres-yet-another-list-of-exciting-ideas-to-build-a95d7704d36d
