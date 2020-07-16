@@ -138,4 +138,6 @@ const styles = {
 ##### Displaying on condition
 ```javascript
 <h3 style={{display: props.question ? "block" : "none"}}>Question: {props.question}</h3>
+//or
+ <h3 style={{display: !props.question && "none"}}>Question: {props.question}</h3>
 ```
